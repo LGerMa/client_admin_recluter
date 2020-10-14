@@ -35,6 +35,24 @@ export default [
     ],
   },
   {
+    _tag: "CSidebarNavDropdown",
+    name: "Bancos",
+    to: "/banks",
+    icon: "cil-settings",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Listar",
+        to: "/banks/list",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Crear",
+        to: "/banks/new",
+      },
+    ],
+  },
+  {
     _tag: "CSidebarNavTitle",
     _children: ["Theme"],
   },

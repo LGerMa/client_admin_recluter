@@ -66,6 +66,10 @@ const CountryList = React.lazy(() => import("./client/country/CountryList"));
 const CountryNew = React.lazy(() => import("./client/country/CountryNew"));
 const CountryEdit = React.lazy(() => import("./client/country/CountryEdit"));
 
+const BankList = React.lazy(() => import("./client/bank/BankList"));
+const BankNew = React.lazy(() => import("./client/bank/BankNew"));
+const BankEdit = React.lazy(() => import("./client/bank/BankEdit"));
+
 const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
@@ -134,6 +138,15 @@ const routes = [
     exact: true,
     name: "Editar",
     component: CountryEdit,
+  },
+  { path: "/banks", exact: true, name: "Bancos", component: BankList },
+  { path: "/banks/list", name: "Listar", component: BankList },
+  { path: "/banks/new", name: "Crear", component: BankNew },
+  {
+    path: "/banks/edit/:id",
+    exact: true,
+    name: "Editar",
+    component: BankEdit,
   },
 ];
 
