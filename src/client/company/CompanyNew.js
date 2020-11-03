@@ -20,7 +20,7 @@ import Notification from "./../../reusable/Notification";
 import API from "./../../server/config/API";
 import routesAPI from "../../server/config/routes";
 
-class BankNew extends React.Component {
+class CompanyNew extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +31,7 @@ class BankNew extends React.Component {
         message: "",
       },
     };
+
     this.countrycombo = React.createRef();
   }
 
@@ -64,13 +65,13 @@ class BankNew extends React.Component {
         country_id: this.state.country_id,
       };
 
-      API.post(`${routesAPI.banks.v1}`, params)
+      API.post(`${routesAPI.companies.v1}`, params)
         .then((resp) => {
           let data = resp.data;
           this.setState({
             notification: {
               type: "info",
-              message: `Banco ${data.name} creado correctamente`,
+              message: `Empresa ${data.name} creado correctamente`,
             },
           });
 
@@ -87,9 +88,9 @@ class BankNew extends React.Component {
 
       e.target.reset();
     }
-
     e.preventDefault();
   };
+
   render() {
     return (
       <>
@@ -104,7 +105,7 @@ class BankNew extends React.Component {
           )}
           <CCol xs="8">
             <CCard>
-              <CCardHeader>Crear banco</CCardHeader>
+              <CCardHeader>Crear Empresa</CCardHeader>
               <CCardBody>
                 <CForm onSubmit={this.handleSubmit}>
                   <CFormGroup>
@@ -141,4 +142,4 @@ class BankNew extends React.Component {
   }
 }
 
-export default BankNew;
+export default CompanyNew;
