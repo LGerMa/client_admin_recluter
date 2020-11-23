@@ -129,15 +129,13 @@ class CompanyEditBasic extends React.Component {
     return (
       <>
         <CRow>
-          {this.state.notification.message && (
-            <CCol xs="6">
+          <CCol xs="6">
+            {this.state.notification.message && (
               <Notification
                 type={this.state.notification.type}
                 message={this.state.notification.message}
               />
-            </CCol>
-          )}
-          <CCol xs="6">
+            )}
             <CCard>
               <CCardHeader>Editar Empresa</CCardHeader>
               <CCardBody>

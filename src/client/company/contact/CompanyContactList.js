@@ -29,10 +29,10 @@ class CompanyContactList extends React.Component {
     company_contacts.data.forEach((contact) => {
       contactsInfo.push({
         id: contact.id,
-        name: contact.contact_name,
-        email: contact.contact_email,
-        phone: contact.contact_phone,
-        position: contact.contact_position,
+        name: contact.contact_name || " - ",
+        email: contact.contact_email || " - ",
+        phone: contact.contact_phone || " - ",
+        position: contact.contact_position || " - ",
       });
     });
 
