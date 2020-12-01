@@ -48,7 +48,6 @@ class BankNew extends React.Component {
       country_id: "",
     });
     this.countrycombo.current.clearSelect();
-    console.log("state cleared");
   };
 
   handleSubmit = (e) => {

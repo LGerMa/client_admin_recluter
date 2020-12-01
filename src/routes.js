@@ -70,6 +70,10 @@ const BankList = React.lazy(() => import("./client/bank/BankList"));
 const BankNew = React.lazy(() => import("./client/bank/BankNew"));
 const BankEdit = React.lazy(() => import("./client/bank/BankEdit"));
 
+const CompanyList = React.lazy(() => import("./client/company/CompanyList"));
+const CompanyNew = React.lazy(() => import("./client/company/CompanyNew"));
+const CompanyEdit = React.lazy(() => import("./client/company/CompanyEdit"));
+
 const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
@@ -147,6 +151,15 @@ const routes = [
     exact: true,
     name: "Editar",
     component: BankEdit,
+  },
+  { path: "/companies", exact: true, name: "Empresas", component: CompanyList },
+  { path: "/companies/list", name: "Listar", component: CompanyList },
+  { path: "/companies/new", name: "Crear", component: CompanyNew },
+  {
+    path: "/companies/edit/:id",
+    exact: true,
+    name: "Editar",
+    component: CompanyEdit,
   },
 ];
 

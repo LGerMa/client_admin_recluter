@@ -15,11 +15,12 @@ import {
   CInput,
   CForm,
   CSwitch,
+  CTextarea,
 } from "@coreui/react";
 import CountryComboList from "../../reusable/comboBox/CountryComboList";
 import CIcon from "@coreui/icons-react";
 
-class BankEdit extends React.Component {
+class CompanyEditBasic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +29,7 @@ class BankEdit extends React.Component {
       country_id: "",
       status: 0,
       isChecked: false,
+      additional_info: "",
       notification: {
         type: "info",
         message: "",
@@ -38,7 +40,7 @@ class BankEdit extends React.Component {
   }
 
   componentDidMount() {
-    API.get(`${routesAPI.banks.v1}/${this.props.match.params.id}`)
+    API.get(`${routesAPI.companies.v1}/${this.props.id}`)
       .then((resp) => {
         this.setState({
           id: resp.data.id,
@@ -46,6 +48,7 @@ class BankEdit extends React.Component {
           country_id: resp.data.country.id.toString(),
           status: resp.data.status === "active" ? 0 : 1,
           isChecked: resp.data.status === "active",
+          additional_info: resp.data.additional_info,
         });
       })
       .catch((err) => console.log(err.message));
@@ -80,22 +83,23 @@ class BankEdit extends React.Component {
         name: this.state.name,
         country_id: this.state.country_id,
         status: this.state.status,
+        additional_info: this.state.additional_info,
       };
 
-      API.put(`${routesAPI.banks.v1}/${this.state.id}`, params)
+      API.put(`${routesAPI.companies.v1}/${this.state.id}`, params)
         .then((resp) => {
           if (resp.status === 200) {
             this.setState({
               notification: {
                 type: "success",
-                message: `Banco ${this.state.name} actualizado correctamente`,
+                message: `Empresa ${this.state.name} actualizado correctamente`,
               },
             });
           } else {
             this.setState({
               notification: {
                 type: "warning",
-                message: `Banco ${this.state.name} no puedo ser actualizado`,
+                message: `Empresa ${this.state.name} no puedo ser actualizado`,
               },
             });
           }
@@ -113,21 +117,27 @@ class BankEdit extends React.Component {
     e.preventDefault();
   };
 
+  clearState = () => {
+    this.setState({
+      name: "",
+      country_id: "",
+    });
+    this.countrycombo.current.clearSelect();
+  };
+
   render() {
     return (
       <>
         <CRow>
-          {this.state.notification.message && (
-            <CCol xs="8">
+          <CCol xs="6">
+            {this.state.notification.message && (
               <Notification
                 type={this.state.notification.type}
                 message={this.state.notification.message}
               />
-            </CCol>
-          )}
-          <CCol xs="8">
+            )}
             <CCard>
-              <CCardHeader>Editar banco</CCardHeader>
+              <CCardHeader>Editar Empresa</CCardHeader>
               <CCardBody>
                 <CForm onSubmit={this.handleSubmit}>
                   <CFormGroup>
@@ -161,6 +171,14 @@ class BankEdit extends React.Component {
                     />
                   </CFormGroup>
                   <CFormGroup>
+                    <CLabel>Información adicional</CLabel>
+                    <CTextarea
+                      name="additional_info"
+                      onChange={this.handleChange}
+                      value={this.state.additional_info}
+                    />
+                  </CFormGroup>
+                  <CFormGroup>
                     <CButton type="submit" size="sm" color="primary">
                       <CIcon name="cil-scrubber" /> Enviar
                     </CButton>{" "}
@@ -178,4 +196,4 @@ class BankEdit extends React.Component {
   }
 }
 
-export default BankEdit;
+export default CompanyEditBasic;

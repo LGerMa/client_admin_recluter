@@ -54,6 +54,28 @@ export default [
   },
   {
     _tag: "CSidebarNavTitle",
+    _children: ["Empresas"],
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Empresas",
+    to: "/companies",
+    icon: "cil-settings",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Listar",
+        to: "/companies/list",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Crear",
+        to: "/companies/new",
+      },
+    ],
+  },
+  {
+    _tag: "CSidebarNavTitle",
     _children: ["Theme"],
   },
   {

@@ -22,6 +22,9 @@ class CountryEdit extends React.Component {
     id: "",
     name: "",
     code: "",
+    symbol_currency: "",
+    dec_currency: ".",
+    thousand_currency: ",",
     notification: {
       type: "info",
       message: "",
@@ -36,6 +39,9 @@ class CountryEdit extends React.Component {
     let params = {
       name: this.state.name,
       code: this.state.code,
+      symbol_currency: this.state.symbol_currency,
+      dec_currency: this.state.dec_currency,
+      thousand_currency: this.state.thousand_currency,
     };
 
     API.put(`${routesAPI.countries.v1}/${this.state.id}`, params)
@@ -75,6 +81,9 @@ class CountryEdit extends React.Component {
           id: resp.data.id,
           name: resp.data.name,
           code: resp.data.code,
+          symbol_currency: resp.data.currency_info.symbol || "",
+          dec_currency: resp.data.currency_info.decimal_sep,
+          thousand_currency: resp.data.currency_info.thousand_sep,
         });
       })
       .catch((err) => {
@@ -98,7 +107,7 @@ class CountryEdit extends React.Component {
 
           <CCol xs="8">
             <CCard>
-              <CCardHeader>Crear pais</CCardHeader>
+              <CCardHeader>Editar pais</CCardHeader>
               <CCardBody>
                 <CForm onSubmit={this.handleSubmit}>
                   <CFormGroup>
@@ -126,6 +135,33 @@ class CountryEdit extends React.Component {
                     <CFormText className="help-block">
                       Codigo de pais, Ej. SV
                     </CFormText>
+                  </CFormGroup>
+                  <CFormGroup>
+                    <CLabel>Simbolo de moneda</CLabel>
+                    <CInput
+                      type="text"
+                      name="symbol_currency"
+                      value={this.state.symbol_currency}
+                      onChange={this.handleChange}
+                    />
+                  </CFormGroup>
+                  <CFormGroup>
+                    <CLabel>Separador de decimales</CLabel>
+                    <CInput
+                      type="text"
+                      name="dec_currency"
+                      value={this.state.dec_currency}
+                      onChange={this.handleChange}
+                    />
+                  </CFormGroup>
+                  <CFormGroup>
+                    <CLabel>Separador de miles</CLabel>
+                    <CInput
+                      type="text"
+                      name="thousand_currency"
+                      value={this.state.thousand_currency}
+                      onChange={this.handleChange}
+                    />
                   </CFormGroup>
                   <CFormGroup>
                     <CButton type="submit" size="sm" color="primary">

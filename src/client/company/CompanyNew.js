@@ -1,7 +1,4 @@
 import React from "react";
-import Notification from "./../../reusable/Notification";
-import API from "../../server/config/API";
-import routesAPI from "../../server/config/routes";
 
 import {
   CButton,
@@ -14,20 +11,21 @@ import {
   CLabel,
   CInput,
   CForm,
-  CSwitch,
 } from "@coreui/react";
+
 import CountryComboList from "../../reusable/comboBox/CountryComboList";
 import CIcon from "@coreui/icons-react";
+import Notification from "./../../reusable/Notification";
 
-class BankEdit extends React.Component {
+import API from "./../../server/config/API";
+import routesAPI from "../../server/config/routes";
+
+class CompanyNew extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
       name: "",
       country_id: "",
-      status: 0,
-      isChecked: false,
       notification: {
         type: "info",
         message: "",
@@ -37,34 +35,20 @@ class BankEdit extends React.Component {
     this.countrycombo = React.createRef();
   }
 
-  componentDidMount() {
-    API.get(`${routesAPI.banks.v1}/${this.props.match.params.id}`)
-      .then((resp) => {
-        this.setState({
-          id: resp.data.id,
-          name: resp.data.name,
-          country_id: resp.data.country.id.toString(),
-          status: resp.data.status === "active" ? 0 : 1,
-          isChecked: resp.data.status === "active",
-        });
-      })
-      .catch((err) => console.log(err.message));
-  }
-
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleChecked = () => {
-    let isChecked = !this.state.isChecked;
-    this.setState({
-      status: isChecked ? 0 : 1,
-      isChecked: isChecked,
-    });
-  };
-
   handleCountrySelected = (e) => {
     this.setState({ country_id: e });
+  };
+
+  clearState = () => {
+    this.setState({
+      name: "",
+      country_id: "",
+    });
+    this.countrycombo.current.clearSelect();
   };
 
   handleSubmit = (e) => {
@@ -79,26 +63,19 @@ class BankEdit extends React.Component {
       let params = {
         name: this.state.name,
         country_id: this.state.country_id,
-        status: this.state.status,
       };
 
-      API.put(`${routesAPI.banks.v1}/${this.state.id}`, params)
+      API.post(`${routesAPI.companies.v1}`, params)
         .then((resp) => {
-          if (resp.status === 200) {
-            this.setState({
-              notification: {
-                type: "success",
-                message: `Banco ${this.state.name} actualizado correctamente`,
-              },
-            });
-          } else {
-            this.setState({
-              notification: {
-                type: "warning",
-                message: `Banco ${this.state.name} no puedo ser actualizado`,
-              },
-            });
-          }
+          let data = resp.data;
+          this.setState({
+            notification: {
+              type: "info",
+              message: `Empresa ${data.name} creado correctamente`,
+            },
+          });
+
+          this.clearState();
         })
         .catch((err) => {
           this.setState({
@@ -108,8 +85,9 @@ class BankEdit extends React.Component {
             },
           });
         });
-    }
 
+      e.target.reset();
+    }
     e.preventDefault();
   };
 
@@ -127,7 +105,7 @@ class BankEdit extends React.Component {
           )}
           <CCol xs="8">
             <CCard>
-              <CCardHeader>Editar banco</CCardHeader>
+              <CCardHeader>Crear Empresa</CCardHeader>
               <CCardBody>
                 <CForm onSubmit={this.handleSubmit}>
                   <CFormGroup>
@@ -135,7 +113,6 @@ class BankEdit extends React.Component {
                     <CInput
                       type="text"
                       name="name"
-                      value={this.state.name}
                       onChange={this.handleChange}
                       required
                     />
@@ -143,21 +120,8 @@ class BankEdit extends React.Component {
                   <CFormGroup>
                     <CLabel>Seleccione pais</CLabel>
                     <CountryComboList
-                      key={this.state.country_id}
-                      selectedCountry={this.state.country_id}
                       ref={this.countrycombo}
                       onChange={this.handleCountrySelected}
-                    />
-                  </CFormGroup>
-                  <CFormGroup>
-                    <CLabel>Estado</CLabel>
-                    <br />
-                    <CSwitch
-                      color="primary"
-                      size="lg"
-                      variant="3d"
-                      checked={this.state.isChecked}
-                      onChange={this.handleChecked}
                     />
                   </CFormGroup>
                   <CFormGroup>
@@ -178,4 +142,4 @@ class BankEdit extends React.Component {
   }
 }
 
-export default BankEdit;
+export default CompanyNew;
